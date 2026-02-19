@@ -51,6 +51,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
          context: .
-         file: ./service/Dockerfile   # path to your Dockerfile
+         file: ./Dockerfile   # path to your Dockerfile
          push: true                   # pushes image to registry
          tags: ghcr.io/myservice:latest
