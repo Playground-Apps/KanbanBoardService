@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace KanbanBoardService.Models
 {
@@ -27,11 +28,12 @@ namespace KanbanBoardService.Models
         /// </summary>
         [ForeignKey("Board")]
         public int BoardId { get; set; }
-                    
+
         /// <summary>
         /// Navigation property for the parent board.
         /// May be null if the related <see cref="Board"/> entity is not loaded.
         /// </summary>
+        [JsonIgnore]
         public Board? Board { get; set; }
 
         /// <summary>

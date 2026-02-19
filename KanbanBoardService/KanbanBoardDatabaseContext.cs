@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using KanbanBoardService.Models;
 
-namespace KanbanBoardService.Data
+namespace KanbanBoardService
 {
     /// <summary>
     /// EF Core DbContext for the Kanban board service.

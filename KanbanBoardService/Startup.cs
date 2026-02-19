@@ -1,9 +1,4 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using KanbanBoardService.Data;
 
 namespace KanbanBoardService
 {
@@ -20,14 +15,33 @@ namespace KanbanBoardService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()                
+                        .AllowAnyMethod();     
+                });
+            });
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
             // Register controllers (API endpoints)
             services.AddControllers();
-
+      
             // Register EF Core DbContext. Expects a connection string named "DefaultConnection" in configuration.
             services.AddDbContext<KanbanBoardDatabaseContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(GetDBConnectionString()));
+        }
 
-            // TODO: register repositories, services, and other application services here.
+        private static string GetDBConnectionString()
+        {
+            var hostAddress = Environment.GetEnvironmentVariable("databaseHost");
+            var dbUserName = Environment.GetEnvironmentVariable("databaseUsername");
+            var dbName = Environment.GetEnvironmentVariable("databaseName");
+            var dbPassword = Environment.GetEnvironmentVariable("databasePassword");
+            return $"Host={hostAddress};Port=5432;Database={dbName};Username={dbUserName};Password={dbPassword}";
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
@@ -36,13 +50,19 @@ namespace KanbanBoardService
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<KanbanBoardDatabaseContext>();
+                db.Database.Migrate();
+            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseRouting();
-
+            app.UseCors("AllowFrontend");
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet("/", () => "Hello World");
                 endpoints.MapControllers();
             });
         }
