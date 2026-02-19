@@ -49,7 +49,7 @@ jobs:
 
       - name: Build image tag
         run: |
-         TAG=ghcr.io/${{github.actor}}/$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2):latest  
+         TAG=ghcr.io/${{github.actor}}/$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]'):latest  
          echo "TAG=$TAG" >> $GITHUB_ENV
 
       - name: Build and Push Docker Image
