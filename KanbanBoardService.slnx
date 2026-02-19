@@ -2,7 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".github/workflows/build.yaml" />
-    <File Path="Dockerfile." />
+    <File Path="Dockerfile" />
   </Folder>
   <Project Path="KanbanBoard.Service/KanbanBoard.Service.csproj" />
   <Project Path="KanbanBoard.Test/KanbanBoard.Test.csproj" Id="6beb3bc2-593e-4a33-a482-9e57f048ad7f" />
