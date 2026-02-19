@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
+    <File Path="DockerFile" />
+    <File Path=".github/workflows/build.yaml" />
   </Folder>
-  <Project Path="KanbanBoardService/KanbanBoardService.csproj" />
+  <Project Path="KanbanBoard.Service/KanbanBoard.Service.csproj" />
 </Solution>
