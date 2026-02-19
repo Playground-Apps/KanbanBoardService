@@ -35,7 +35,7 @@ jobs:
          dotnet build "$SERVICE_PROJECT" --no-restore --configuration Release
       
       - name: Run Tests
-        run: dotnet test **/*.Test --no-build --configuration Release
+        run: dotnet test **/*.Test.csproj --no-build --configuration Release
 
       - name: Publish Project
         run: dotnet publish "$SERVICE_PROJECT" --configuration --runtime linux-x64 --self-contained false Release --output publish
