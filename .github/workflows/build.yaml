@@ -30,9 +30,9 @@ jobs:
 
       - name: Build Project
         run: |
-         SERVICE_PROJECT=$(echo **/*Service.csproj)
+         SERVICE_PROJECT=$(echo **/*.Service.csproj)
          echo "SERVICE_PROJECT=$SERVICE_PROJECT" >> $GITHUB_ENV
-         dotnet build **/*.Service --no-restore --configuration Release
+         dotnet build "$SERVICE_PROJECT" --no-restore --configuration Release
       
       - name: Run Tests
         run: dotnet test **/*.Test --no-build --configuration Release
