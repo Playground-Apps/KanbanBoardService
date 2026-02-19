@@ -47,10 +47,15 @@ jobs:
          username: ${{ github.actor }}
          password: ${{ secrets.GIT_HUB_TOKEN }}
 
+      - name: Build image tag
+        run: |
+         TAG=ghcr.io/${github.actor}/$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2):latest  
+         echo "TAG=$TAG" >> $GITHUB_ENV
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
          context: .
          file: ./Dockerfile   # path to your Dockerfile
          push: true                   # pushes image to registry
-         tags: ghcr.io/${github.actor}/$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2):latest
+         tags: ${{ env.TAG }}           # tag for the image
