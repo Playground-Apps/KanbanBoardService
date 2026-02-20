@@ -11,3 +11,4 @@ services:
       databasePassword: "Unv!@2000"
       databaseHost: localhost
     restart: unless-stopped
+    entrypoint: ["dotnet", "KanbanBoard.Service.dll"]
