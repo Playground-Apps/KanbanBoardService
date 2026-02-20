@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>f9c54858-8f6b-4cd1-85bd-88122a60e4e9</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <AssemblyName>KanbanBoard.Service</AssemblyName>
+	  <RootNamespace>KanbanBoard.Service</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,13 @@
+services:
+  kanbanservice:
+    image: ghcr.io/nitishunvi/kanbanboardservice:latest
+    container_name: kanbanservice
+    ports:
+      - "9000:80"  # maps host port 9000 to container port 80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      databaseName: KanbanDB
+      databaseUsername: postgres
+      databasePassword: "Unv!@2000"
+      databaseHost: localhost
+    restart: unless-stopped
