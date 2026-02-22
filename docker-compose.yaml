@@ -9,11 +9,15 @@ services:
       databasePassword: "Unv!@2000"
       databaseHost: postgres
     restart: unless-stopped
+    networks:
+      - web
 
   kanban-app:
     image: ghcr.io/nitishunvi/kanban-board-app:latest
     container_name: kanban-app
     restart: unless-stopped
+    networks:
+      - web
 
   postgres:
     image: postgres:16-alpine
@@ -27,20 +31,29 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - web
 
   traefik:
     image: traefik:v3.0
     container_name: traefik
     command:
+      - --log.level=DEBUG
       - --api.insecure=true
-      - --providers.docker=true
       - --entrypoints.websecure.address=:443
       - --entrypoints.websecure.http.tls=true
+      - --providers.file.filename=/etc/traefik/dynamic.yaml
     ports:
-      - "7000:80"        # Public port
+      - "7000:443"        # Public port
       - "8080:8080"      # Traefik dashboard (optional)
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./dynamic.yaml:/etc/traefik/dynamic.yaml
+    networks:
+      - web
 
 volumes:
   postgres_data:
+
+networks:
+  web:
+    driver: bridge

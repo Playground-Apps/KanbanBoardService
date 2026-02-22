@@ -1,0 +1,14 @@
+http:
+  routers:
+    frontend:
+      rule: "Host(`kanban-board.com`) && PathPrefix(`/`)"
+      service: frontend-service
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    frontend-service:
+      loadBalancer:
+        servers:
+          - url: "http://kanban-app:80"
