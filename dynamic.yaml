@@ -1,24 +1,32 @@
 http:
   routers:
     frontend:
-      rule: "Host(`kanban-board.com`) && PathPrefix(`/`)"
+      rule: "Host(`kanban-board.com`) && PathPrefix(`/`) && !PathPrefix(`/api`)"
       service: frontend-service
       entryPoints:
         - websecure
       tls: {}
 
     api:
-      rule: "Host(`kanban-board.com`) && PathPrefix(`/api/kanban_board/`)"
+      rule: "Host(`kanban-board.com`) && PathPrefix(`/api/kanban_board`)"
       service: api-service
       entryPoints:
         - websecure
       tls: {}
+      middlewares:
+        - strip-api-prefix
 
+  middlewares:
+    strip-api-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api/kanban_board"
   services:
     frontend-service:
       loadBalancer:
         servers:
           - url: "http://kanban-app:80"
+
 
     api-service:
       loadBalancer:
