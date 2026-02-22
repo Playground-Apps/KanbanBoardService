@@ -2,8 +2,6 @@ services:
   kanbanservice:
     image: ghcr.io/nitishunvi/kanbanboardservice:latest
     container_name: kanbanservice
-    ports:
-      - "9000:8080"  # maps host port 9000 to container port 80
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       databaseName: KanbanDB
@@ -15,8 +13,6 @@ services:
   kanban-app:
     image: ghcr.io/nitishunvi/kanban-board-app:latest
     container_name: kanban-app
-    ports:
-      - "7000:80"  # maps host port 9000 to container port 80
     restart: unless-stopped
 
   postgres:
@@ -45,7 +41,6 @@ services:
       - "8080:8080"      # Traefik dashboard (optional)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - web
+
 volumes:
   postgres_data:
