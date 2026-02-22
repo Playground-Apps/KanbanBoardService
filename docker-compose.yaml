@@ -3,11 +3,49 @@ services:
     image: ghcr.io/nitishunvi/kanbanboardservice:latest
     container_name: kanbanservice
     ports:
-      - "9000:80"  # maps host port 9000 to container port 80
+      - "9000:8080"  # maps host port 9000 to container port 80
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       databaseName: KanbanDB
       databaseUsername: postgres
       databasePassword: "Unv!@2000"
-      databaseHost: localhost
+      databaseHost: postgres
     restart: unless-stopped
+
+  kanban-app:
+    image: ghcr.io/nitishunvi/kanban-board-app:latest
+    container_name: kanban-app
+    ports:
+      - "7000:80"  # maps host port 9000 to container port 80
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: kanban-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: KanbanDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Unv!@2000
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls=true
+    ports:
+      - "7000:80"        # Public port
+      - "8080:8080"      # Traefik dashboard (optional)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - web
+volumes:
+  postgres_data:
