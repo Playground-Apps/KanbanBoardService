@@ -44,7 +44,7 @@ services:
       - --entrypoints.websecure.http.tls=true
       - --providers.file.filename=/etc/traefik/dynamic.yaml
     ports:
-      - "7000:443"        # Public port
+      - "443:443"        # Public port
       - "8080:8080"      # Traefik dashboard (optional)
     volumes:
       - ./dynamic.yaml:/etc/traefik/dynamic.yaml

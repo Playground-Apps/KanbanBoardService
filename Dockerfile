@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ./publish .
 
 # Build-time argument (default value)
-ARG BASE_PATH="/api/kaban_board/"
+ARG BASE_PATH="/api/kanban_board/"
 # Optional: also available at runtime
 ENV BASE_PATH=${BASE_PATH}
 
